@@ -1,0 +1,4 @@
+certbot/
+nginx-conf/
+*.log
+.env
