@@ -1,0 +1,28 @@
+name: Deploy to Yandex Cloud
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 158.160.96.145 >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          ssh ubuntu@158.160.96.145 "
+            cd ~/math-platform &&
+            git pull origin main &&
+            docker compose down &&
+            docker compose up -d --build
+          "
