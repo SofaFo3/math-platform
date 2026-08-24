@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ubuntu@158.160.96.145 "
+          ssh math-admin@158.160.96.145 "
             cd ~/math-platform &&
             git pull origin main &&
             docker compose down &&
